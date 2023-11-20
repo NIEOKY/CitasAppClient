@@ -9,12 +9,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  model: any = {}
+  model: any = {};
+  constructor(private accountService: AccountService,
+    private toastr: ToastrService) {}
 
-  constructor(private accountService: AccountService, private toastr: ToastrService){}
-
-  ngOnInit():void{
-
+  ngOnInit(): void {
   }
 
   register(): void {
@@ -22,11 +21,15 @@ export class RegisterComponent implements OnInit {
       next: () => {
         this.cancel();
       },
-      error: error => this.toastr.error(error.error)
+      error: error => {
+        this.toastr.error(error.error);
+        console.log(error);
+      }
     });
   }
 
-  cancel():void{
+  cancel(): void {
     this.cancelRegister.emit(false);
   }
+
 }
